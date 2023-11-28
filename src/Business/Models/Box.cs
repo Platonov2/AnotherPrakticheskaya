@@ -1,12 +1,19 @@
-﻿namespace Api.Controllers.Boxes.RequestDtos;
+﻿namespace Business.Models;
 
-public class UpdateBoxDto
+/// <summary>
+/// Внутренняя модель коробки
+/// </summary>
+public sealed class Box
 {
-
     /// <summary>
     /// ИД коробки
     /// </summary>
     public Guid Id { get; set; }
+
+    /// <summary>
+    /// Внешний ключ Id паллеты
+    /// </summary>
+    public Guid PalletRecordId { get; set; }
 
     /// <summary>
     /// Длина коробки
@@ -31,7 +38,7 @@ public class UpdateBoxDto
     /// <summary>
     /// Объём коробки
     /// </summary>
-    public int? Volume { get; set; }
+    public int? Volume => Length * Width * Height;
 
     /// <summary>
     /// Дата производства

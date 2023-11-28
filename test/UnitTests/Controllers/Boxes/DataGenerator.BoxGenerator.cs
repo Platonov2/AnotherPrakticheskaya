@@ -1,10 +1,10 @@
-﻿using Api.Controllers.Boxes.RequestDtos;
+﻿using Api.Controllers.Boxes.Requests;
 
 namespace UnitTests.Controllers.Boxes;
 
 internal static partial class DataGenerator
 {
-    public static CreateBoxDto GenerateCreateBoxDto(
+    public static CreateBoxRequest GenerateCreateBoxDto(
         int minLength = 1,
         int maxLength = 1,
         int minHeight = 1,
@@ -21,7 +21,7 @@ internal static partial class DataGenerator
 
         var randomDateOnly = new DateOnly(random.Next(2015, 2024), random.Next(1, 12), random.Next(0, 27));
 
-        var boxDto = new CreateBoxDto
+        var boxDto = new CreateBoxRequest
         {
             PalletId = palletId == default
                 ? Guid.NewGuid()

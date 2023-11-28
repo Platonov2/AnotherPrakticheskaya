@@ -1,15 +1,30 @@
-﻿namespace Storage.Repositories;
+﻿using Storage.Entities;
 
+namespace Storage.Repositories;
+
+/// <summary>
+/// Интерфейс репозитория, реализующего CRUD-операции
+/// </summary>
 public interface ICrudRepository<T>
     where T : class
 {
-    public Task<List<T>> GetAllAsync(CancellationToken cancellationToken);
+    /// <summary>
+    /// Получение записи по Id
+    /// </summary>
+    public Task<T?> GetAsync(Guid recordId, CancellationToken cancellationToken);
 
-    public Task<T?> GetAsync(Guid id, CancellationToken cancellationToken);
+    /// <summary>
+    /// Создание записи
+    /// </summary>
+    public Task<Guid?> CreateAsync(T record, CancellationToken cancellationToken);
 
-    public Task<Guid?> CreateAsync(T pallet, CancellationToken cancellationToken);
+    /// <summary>
+    /// Обновление записи
+    /// </summary>
+    public Task UpdateAsync(T record, CancellationToken cancellationToken);
 
-    public Task<bool> UpdateAsync(T pallet, CancellationToken cancellationToken);
-
-    public Task<bool> DeleteAsync(Guid palletId, CancellationToken cancellationToken);
+    /// <summary>
+    /// Удаление записи
+    /// </summary>
+    public Task DeleteAsync(T record, CancellationToken cancellationToken);
 }

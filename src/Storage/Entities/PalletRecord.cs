@@ -1,20 +1,23 @@
 ﻿namespace Storage.Entities;
 
-public class Pallet
+/// <summary>
+/// Модель записи паллет в БД
+/// </summary>
+public sealed class PalletRecord
 {
     private int length;
     private int width;
     private int height;
     private int weight;
 
-    public Pallet() { }
+    public PalletRecord() { }
 
-    public Pallet(Guid id, int length, int width, int height, int weight) :
+    public PalletRecord(Guid id, int length, int width, int height, int weight) :
         this(id, length, width, height, weight, null)
     {
     }
 
-    public Pallet(Guid id, int length, int width, int height, int weight, List<Box>? boxes)
+    public PalletRecord(Guid id, int length, int width, int height, int weight, List<BoxRecord>? boxes)
     {
         Id = id;
         Length = length;
@@ -28,7 +31,7 @@ public class Pallet
     /// <summary>
     /// Добовление коробки в палетту
     /// </summary>
-    public void AddBox(Box box)
+    public void AddBox(BoxRecord box)
     {
         if (box.Length > Length || box.Width > Width)
         {
@@ -36,7 +39,7 @@ public class Pallet
                 + box.Length.ToString() + " " + box.Width.ToString() + " " + Length.ToString() + " " + Width.ToString());
         }
 
-        box.PalletId = Id;
+        box.PalletRecordId = Id;
     }
 
     /// <summary>
@@ -107,7 +110,7 @@ public class Pallet
     /// <summary>
     /// Коробки на палетте
     /// </summary>
-    public List<Box> Boxes { get; set; } = new();
+    public List<BoxRecord> Boxes { get; set; } = new();
 
     /// <summary>
     /// Срок годности палетты

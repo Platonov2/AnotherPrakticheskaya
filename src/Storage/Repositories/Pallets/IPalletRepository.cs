@@ -2,7 +2,21 @@
 
 namespace Storage.Repositories.Pallets;
 
-public interface IPalletRepository : ICrudRepository<Pallet>
+/// <summary>
+/// Интерфейс репозитория паллет
+/// </summary>
+public interface IPalletRepository : ICrudRepository<PalletRecord>
 {
-    public Task<List<Pallet>> GetWithPaginationAsync(int offset, int take, CancellationToken cancellationToken);
+    /// <summary>
+    /// Получение всех паллет из БД
+    /// </summary>
+    public Task<List<PalletRecord>> GetAllAsync(CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Получение паллет с паггинацией
+    /// </summary>
+    public Task<List<PalletRecord>> GetWithPaginationAsync(
+        int offset,
+        int take,
+        CancellationToken cancellationToken);
 }

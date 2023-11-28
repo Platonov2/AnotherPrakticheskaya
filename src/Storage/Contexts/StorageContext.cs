@@ -6,26 +6,26 @@ namespace Storage.Contexts;
 
 public class StorageContext : DbContext
 {
-    public DbSet<Box> Boxes => Set<Box>();
-    public DbSet<Pallet> Pallets => Set<Pallet>();
+    public DbSet<BoxRecord> Boxes => Set<BoxRecord>();
+    public DbSet<PalletRecord> Pallets => Set<PalletRecord>();
 
-    //public StorageContext() {  }
+    public StorageContext() {  }
 
     public StorageContext(DbContextOptions<StorageContext> options) : base(options) { }
 
-    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         //optionsBuilder.UseSqlite("Data Source=dataBase.db");
         //optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=usersdb;Username=postgres;Password=postgres");
-    }*/
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //modelBuilder.ApplyConfigurationsFromAssembly(typeof(StorageContext).Assembly);
+        /*modelBuilder.ApplyConfigurationsFromAssembly(typeof(StorageContext).Assembly);
 
-        /*var (pallets, boxes) = DataGenerator.Generate();
+        var (pallets, boxes) = DataGenerator.Generate();
 
-        modelBuilder.Entity<Pallet>().HasData(pallets);
-        modelBuilder.Entity<Box>().HasData(boxes);*/
+        modelBuilder.Entity<PalletRecord>().HasData(pallets);
+        modelBuilder.Entity<BoxRecord>().HasData(boxes);*/
     }
 }

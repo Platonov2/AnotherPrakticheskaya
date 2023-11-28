@@ -1,14 +1,11 @@
-using Api.Controllers.Boxes.RequestDtos;
-using Api.Controllers.Boxes.ResponceDtos;
+using Api.Controllers.Boxes.Requests;
+using Api.Controllers.Boxes.Responces;
 using Api.Controllers.Boxes.Validators;
-using Api.Controllers.Pallets.RequiestDtos;
-using Api.Controllers.Pallets.ResponceDtos;
-using Api.Controllers.Pallets.Validators;
 using AutoMapper;
 using Business.Models;
 using Business.Services.Box;
-using Business.Services.Pallet;
 using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers.Boxes;
@@ -18,8 +15,8 @@ namespace Api.Controllers.Boxes;
 public class BoxController : ControllerBase
 {
     private readonly IBoxService boxService;
-    private readonly AbstractValidator<CreateBoxDto> createBoxValidator;
-    private readonly AbstractValidator<UpdateBoxDto> updateBoxValidator;
+    private readonly AbstractValidator<CreateBoxRequest> createBoxValidator;
+    private readonly AbstractValidator<UpdateBoxRequest> updateBoxValidator;
     private readonly IMapper mapper;
 
     public BoxController(
@@ -34,6 +31,9 @@ public class BoxController : ControllerBase
         this.mapper = mapper;
     }
 
+    /// <summary>
+    /// Получение всех коробок
+    /// </summary>
     [HttpGet(Name = "GetAllBoxes")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetBoxResponce>))]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
@@ -43,13 +43,15 @@ public class BoxController : ControllerBase
         return Ok(mapper.Map<List<GetBoxResponce>>(boxes));
     }
 
+    /// <summary>
+    /// Получение коробки по Id
+    /// </summary>
     [HttpGet("{boxId}", Name = "GetBox")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetBoxResponce))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get(Guid boxId, CancellationToken cancellationToken)
     {
         var box = await boxService.GetAsync(boxId, cancellationToken).ConfigureAwait(false);
-
         if (box == null)
         {
             return NotFound("Коробка по заданному Id не найдена");
@@ -58,9 +60,13 @@ public class BoxController : ControllerBase
         return Ok(mapper.Map<GetBoxResponce>(box));
     }
 
+    /// <summary>
+    /// Создание коробки
+    /// </summary>
     [HttpPost(Name = "CreateBox")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Create(CreateBoxDto boxDto, CancellationToken cancellationToken)
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationResult))]
+    public async Task<IActionResult> Create(CreateBoxRequest boxDto, CancellationToken cancellationToken)
     {
         var validationResult = createBoxValidator.Validate(boxDto);
         if (validationResult.Errors.Count != 0)
@@ -68,9 +74,8 @@ public class BoxController : ControllerBase
             return BadRequest(validationResult);
         }
 
-        var box = mapper.Map<BoxDomain>(boxDto);
+        var box = mapper.Map<Box>(boxDto);
         var newBoxId = await boxService.CreateAsync(box, cancellationToken);
-
         if (newBoxId == null)
         {
             return NotFound();
@@ -79,10 +84,14 @@ public class BoxController : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Обновление коробки по её Id
+    /// </summary>
     [HttpPut(Name = "UpdateBox")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationResult))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(UpdateBoxDto boxDto, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update(UpdateBoxRequest boxDto, CancellationToken cancellationToken)
     {
         var validationResult = updateBoxValidator.Validate(boxDto);
         if (validationResult.Errors.Count != 0)
@@ -90,9 +99,8 @@ public class BoxController : ControllerBase
             return BadRequest(validationResult);
         }
 
-        var box = mapper.Map<BoxDomain>(boxDto);
+        var box = mapper.Map<Box>(boxDto);
         var isUpdated = await boxService.UpdateAsync(box, cancellationToken).ConfigureAwait(false);
-
         if (!isUpdated)
         {
             return NotFound("Запись с данным Id не найдена");
@@ -101,18 +109,14 @@ public class BoxController : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Удаление коробки по её Id
+    /// </summary>
     [HttpDelete(Name = "DeleteBox")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(Guid boxId, CancellationToken cancellationToken)
     {
-        var isDeleted = await boxService.DeleteAsync(boxId, cancellationToken).ConfigureAwait(false);
-
-        if (!isDeleted)
-        {
-            return NotFound("Запись с данным Id не найдена");
-        }
+        await boxService.DeleteAsync(boxId, cancellationToken).ConfigureAwait(false);
 
         return Ok();
     }

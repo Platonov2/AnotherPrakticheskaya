@@ -1,7 +1,9 @@
-﻿using Business.Models;
+﻿namespace Business.Services.Box;
 
-namespace Business.Services.Box;
-
-public interface IBoxService : ICrudService<BoxDomain>
+/// <summary>
+/// Интерфейс сервиса коробок
+/// </summary>
+public interface IBoxService : ICrudService<Models.Box>
 {
+    public Task<ICollection<Models.Box>> GetAllAsync(CancellationToken cancellationToken);
 }

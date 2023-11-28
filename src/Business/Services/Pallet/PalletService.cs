@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Business.Models;
 using Storage.Repositories.Pallets;
 
 namespace Business.Services.Pallet;
@@ -15,14 +14,14 @@ public sealed class PalletService : IPalletService
         this.mapper = mapper;
     }
 
-    public async Task<ICollection<PalletDomain>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<ICollection<Models.Pallet>> GetAllAsync(CancellationToken cancellationToken)
     {
         var palletEntities = await palletRepository.GetAllAsync(cancellationToken).ConfigureAwait(false);
 
         return MapPalletsWithBoxes(palletEntities);
     }
 
-    public async Task<PalletDomain?> GetAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<Models.Pallet?> GetAsync(Guid id, CancellationToken cancellationToken)
     {
         var palletEntity = await palletRepository.GetAsync(id, cancellationToken).ConfigureAwait(false);
 
@@ -34,26 +33,39 @@ public sealed class PalletService : IPalletService
         return MapPalletWithBoxes(palletEntity);
     }
 
-    public Task<Guid?> CreateAsync(PalletDomain palletDomain, CancellationToken cancellationToken)
+    public Task<Guid?> CreateAsync(Models.Pallet palletDomain, CancellationToken cancellationToken)
     {
-        var pallet = mapper.Map<Storage.Entities.Pallet>(palletDomain);
+        var pallet = mapper.Map<Storage.Entities.PalletRecord>(palletDomain);
 
         return palletRepository.CreateAsync(pallet, cancellationToken);
     }
 
-    public Task<bool> UpdateAsync(PalletDomain palletDomain, CancellationToken cancellationToken)
+    public async Task<bool> UpdateAsync(Models.Pallet palletDomain, CancellationToken cancellationToken)
     {
-        var pallet = mapper.Map<Storage.Entities.Pallet>(palletDomain);
+        var storedPallet = await palletRepository.GetAsync(palletDomain.Id, cancellationToken);
 
-        return palletRepository.UpdateAsync(pallet, cancellationToken);
+        if (storedPallet == null)
+        {
+            return false;
+        }
+
+        mapper.Map(palletDomain, storedPallet);
+        await palletRepository.UpdateAsync(storedPallet, cancellationToken);
+
+        return true;
     }
 
-    public Task<bool> DeleteAsync(Guid palletId, CancellationToken cancellationToken)
+    public async Task DeleteAsync(Guid palletId, CancellationToken cancellationToken)
     {
-        return palletRepository.DeleteAsync(palletId, cancellationToken);
+        var storedPallet = await palletRepository.GetAsync(palletId, cancellationToken);
+
+        if (storedPallet != null)
+        {
+            await palletRepository.DeleteAsync(storedPallet, cancellationToken);
+        }
     }
 
-    public async Task<ICollection<PalletDomain>> GetWithPaginationAsync(
+    public async Task<ICollection<Models.Pallet>> GetWithPaginationAsync(
         int offset,
         int take,
         CancellationToken cancellationToken)
@@ -64,9 +76,9 @@ public sealed class PalletService : IPalletService
         return MapPalletsWithBoxes(palletEntities);
     }
 
-    private ICollection<PalletDomain> MapPalletsWithBoxes(ICollection<Storage.Entities.Pallet> pallets)
+    private ICollection<Models.Pallet> MapPalletsWithBoxes(ICollection<Storage.Entities.PalletRecord> pallets)
     {
-        var domainPallets = new List<PalletDomain>();
+        var domainPallets = new List<Models.Pallet>();
         foreach (var palletEntity in pallets)
         {
             domainPallets.Add(MapPalletWithBoxes(palletEntity));
@@ -75,10 +87,10 @@ public sealed class PalletService : IPalletService
         return domainPallets;
     }
 
-    private PalletDomain MapPalletWithBoxes(Storage.Entities.Pallet pallet)
+    private Models.Pallet MapPalletWithBoxes(Storage.Entities.PalletRecord pallet)
     {
-        var boxes = mapper.Map<List<BoxDomain>>(pallet.Boxes);
-        var domainPallet = mapper.Map<PalletDomain>(pallet);
+        var boxes = mapper.Map<List<Models.Box>>(pallet.Boxes);
+        var domainPallet = mapper.Map<Models.Pallet>(pallet);
         domainPallet.Boxes = boxes;
 
         return domainPallet;

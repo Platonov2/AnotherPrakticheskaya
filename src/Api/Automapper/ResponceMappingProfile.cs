@@ -1,7 +1,7 @@
-﻿using Api.Controllers.Boxes.RequestDtos;
-using Api.Controllers.Boxes.ResponceDtos;
-using Api.Controllers.Pallets.RequiestDtos;
-using Api.Controllers.Pallets.ResponceDtos;
+﻿using Api.Controllers.Boxes.Requests;
+using Api.Controllers.Boxes.Responces;
+using Api.Controllers.Pallets.Requests;
+using Api.Controllers.Pallets.Responces;
 using AutoMapper;
 using Business.Models;
 
@@ -11,20 +11,18 @@ public class ResponceMappingProfile : Profile
 {
     public ResponceMappingProfile()
     {
-        CreateMap<BoxDomain, GetBoxResponce>();
+        CreateMap<Box, GetBoxResponce>();
 
-        CreateMap<PalletDomain, GetPalletResponceDto>();
+        CreateMap<Pallet, GetPalletResponce>();
 
-        CreateMap<CreateBoxDto, BoxDomain>()
+        CreateMap<CreateBoxRequest, Box>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()));
 
-        CreateMap<CreatePalletDto, PalletDomain>()
+        CreateMap<CreatePalletRequest, Pallet>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()));
 
-        CreateMap<UpdateBoxDto, BoxDomain>()
-            .ForAllMembers(opts => opts.Condition((_, _, srcMember) => srcMember != null));
+        CreateMap<UpdateBoxRequest, Box>();
 
-        CreateMap<UpdatePalletDto, PalletDomain>()
-            .ForAllMembers(opts => opts.Condition((_, _, srcMember) => srcMember != null));
+        CreateMap<UpdatePalletRequest, Pallet>();
     }
 }

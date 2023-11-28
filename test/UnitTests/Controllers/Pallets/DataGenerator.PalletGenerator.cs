@@ -1,10 +1,10 @@
-﻿using Api.Controllers.Pallets.RequiestDtos;
+﻿using Api.Controllers.Pallets.Requests;
 
 namespace UnitTests.Controllers.Pallet;
 
 public static partial class DataGenerator
 {
-    public static CreatePalletDto GenerateCreatePalletDto(
+    public static CreatePalletRequest GenerateCreatePalletDto(
         int minLength = 1,
         int maxLength = 1,
         int minHeight = 1,
@@ -16,7 +16,7 @@ public static partial class DataGenerator
     {
         Random random = new();
 
-        var palletDto = new CreatePalletDto
+        var palletDto = new CreatePalletRequest
         {
             Length = random.Next(minLength, maxLength),
             Height = random.Next(minHeight, maxHeight),

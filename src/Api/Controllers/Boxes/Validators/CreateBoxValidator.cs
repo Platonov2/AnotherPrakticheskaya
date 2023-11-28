@@ -1,9 +1,9 @@
-﻿using Api.Controllers.Boxes.RequestDtos;
+﻿using Api.Controllers.Boxes.Requests;
 using FluentValidation;
 
 namespace Api.Controllers.Boxes.Validators;
 
-public class CreateBoxValidator : AbstractValidator<CreateBoxDto>
+public sealed class CreateBoxValidator : AbstractValidator<CreateBoxRequest>
 {
     public CreateBoxValidator()
     {

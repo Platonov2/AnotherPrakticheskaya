@@ -4,11 +4,11 @@ namespace Storage.Infrastructure.Generators;
 
 internal static class DataGenerator
 {
-    public static (List<Pallet>, List<Box>) Generate()
+    public static (List<PalletRecord>, List<BoxRecord>) Generate()
     {
         var rnd = new Random();
-        var pallets = new List<Pallet>();
-        var boxes = new List<Box>();
+        var pallets = new List<PalletRecord>();
+        var boxes = new List<BoxRecord>();
 
         var numberOfPallets = rnd.Next(15, 30);
 
@@ -29,7 +29,7 @@ internal static class DataGenerator
         return (pallets, boxes);
     }
 
-    private static Pallet GeneratePallet()
+    private static PalletRecord GeneratePallet()
     {
         var rnd = new Random();
 
@@ -39,10 +39,10 @@ internal static class DataGenerator
         var palletHeight = rnd.Next(10, 50);
         var palletWeight = rnd.Next(30, 50);
 
-        return new Pallet(id, palletLength, palletWidth, palletHeight, palletWeight);
+        return new PalletRecord(id, palletLength, palletWidth, palletHeight, palletWeight);
     }
 
-    private static Box GenerateBox(int maxLength, int maxWidth)
+    private static BoxRecord GenerateBox(int maxLength, int maxWidth)
     {
         var rnd = new Random();
 
@@ -65,9 +65,9 @@ internal static class DataGenerator
             var expirationDay = rnd.Next(manufacturingDay, 29);
             var expirationDate = new DateOnly(expirationYear, expirationMonth, expirationDay);
 
-            return new Box(id, length, width, heigth, weigh, manufacturingDate, expirationDate);
+            return new BoxRecord(id, length, width, heigth, weigh, manufacturingDate, expirationDate);
         }
 
-        return new Box(id, length, width, heigth, weigh, manufacturingDate);
+        return new BoxRecord(id, length, width, heigth, weigh, manufacturingDate);
     }
 }

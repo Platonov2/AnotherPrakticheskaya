@@ -2,6 +2,13 @@
 
 namespace Storage.Repositories.Boxes;
 
-public interface IBoxRepository : ICrudRepository<Box>
+/// <summary>
+/// Интерфейс репозитория коробок
+/// </summary>
+public interface IBoxRepository : ICrudRepository<BoxRecord>
 {
+    /// <summary>
+    /// Получение всех коробок из БД
+    /// </summary>
+    public Task<List<BoxRecord>> GetAllAsync(CancellationToken cancellationToken);
 }

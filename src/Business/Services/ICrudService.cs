@@ -1,15 +1,28 @@
 ﻿namespace Business.Services;
 
+/// <summary>
+/// Интерфейс сервиса, реализующего CRUD-операции
+/// </summary>
 public interface ICrudService<T>
     where T : class
 {
-    public Task<ICollection<T>> GetAllAsync(CancellationToken cancellationToken);
+    /// <summary>
+    /// Получение сущности по Id
+    /// </summary>
+    public Task<T?> GetAsync(Guid entityId, CancellationToken cancellationToken);
 
-    public Task<T?> GetAsync(Guid id, CancellationToken cancellationToken);
+    /// <summary>
+    /// Создание сущности
+    /// </summary>
+    public Task<Guid?> CreateAsync(T entity, CancellationToken cancellationToken);
 
-    public Task<Guid?> CreateAsync(T palletDomain, CancellationToken cancellationToken);
+    /// <summary>
+    /// Обновление сущности
+    /// </summary>
+    public Task<bool> UpdateAsync(T entity, CancellationToken cancellationToken);
 
-    public Task<bool> UpdateAsync(T palletDomain, CancellationToken cancellationToken);
-
-    public Task<bool> DeleteAsync(Guid palletId, CancellationToken cancellationToken);
+    /// <summary>
+    /// Удаление сущности
+    /// </summary>
+    public Task DeleteAsync(Guid entityId, CancellationToken cancellationToken);
 }

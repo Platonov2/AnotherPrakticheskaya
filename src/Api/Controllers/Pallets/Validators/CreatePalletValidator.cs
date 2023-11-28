@@ -1,9 +1,9 @@
-﻿using Api.Controllers.Pallets.RequiestDtos;
+﻿using Api.Controllers.Pallets.Requests;
 using FluentValidation;
 
 namespace Api.Controllers.Pallets.Validators;
 
-public class CreatePalletValidator : AbstractValidator<CreatePalletDto>
+public class CreatePalletValidator : AbstractValidator<CreatePalletRequest>
 {
     public CreatePalletValidator()
     {

@@ -1,5 +1,4 @@
-﻿using Business.Infrastructure.Automapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Storage.Contexts;
 using Storage.Infrastructure.Options;
@@ -30,8 +29,6 @@ public static class ServiceCollectionExtension
             
         services.AddTransient<IPalletRepository, PalletRepository>();
         services.AddTransient<IBoxRepository, BoxRepository>();
-
-        services.AddAutoMapper(typeof(StorageMappingProfile));
 
         return services;
     }

@@ -25,7 +25,7 @@ public class PalletControllerTests : TestBase
             Fixture.Create<IMapper>());
     }
 
-    [Fact(DisplayName = "Ќевозможность обновлени€ несуществующего направлени€")]
+    [Fact(DisplayName = "Ќевозможность создани€ коробки с отрицательной длиной")]
     public async void CreatePallet_WithLengthLessZero_ShoudException()
     {
         // Arrange

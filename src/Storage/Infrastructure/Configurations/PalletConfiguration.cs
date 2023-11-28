@@ -4,9 +4,9 @@ using Storage.Entities;
 
 namespace Storage.Infrastructure.Configurations;
 
-internal sealed class PalletConfiguration : IEntityTypeConfiguration<Pallet>
+internal sealed class PalletConfiguration : IEntityTypeConfiguration<PalletRecord>
 {
-    public void Configure(EntityTypeBuilder<Pallet> builder)
+    public void Configure(EntityTypeBuilder<PalletRecord> builder)
     {
         builder.HasIndex(p => p.Id).IsUnique();
 

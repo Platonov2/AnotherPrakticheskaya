@@ -1,11 +1,19 @@
-﻿namespace Api.Controllers.Boxes.RequestDtos;
+﻿namespace Api.Controllers.Boxes.Responces;
 
-public class CreateBoxDto
+/// <summary>
+/// Модель ответа с информацией о коробке
+/// </summary>
+public sealed class GetBoxResponce
 {
+    /// <summary>
+    /// ИД коробки
+    /// </summary>
+    public Guid Id { get; set; }
+
     /// <summary>
     /// Внешний ключ Id паллеты
     /// </summary>
-    public Guid PalletId { get; set; }
+    public Guid PalletRecordId { get; set; }
 
     /// <summary>
     /// Длина коробки
@@ -26,6 +34,11 @@ public class CreateBoxDto
     /// Вес коробки
     /// </summary>
     public int Weight { get; set; }
+
+    /// <summary>
+    /// Объём коробки
+    /// </summary>
+    public int Volume { get; set; }
 
     /// <summary>
     /// Дата производства

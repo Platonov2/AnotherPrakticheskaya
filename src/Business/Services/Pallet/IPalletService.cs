@@ -1,11 +1,13 @@
-﻿using Business.Models;
+﻿namespace Business.Services.Pallet;
 
-namespace Business.Services.Pallet;
-
-public interface IPalletService : ICrudService<PalletDomain>
+/// <summary>
+/// Интерфейс сервиса паллет
+/// </summary>
+public interface IPalletService : ICrudService<Models.Pallet>
 {
+    public Task<ICollection<Models.Pallet>> GetAllAsync(CancellationToken cancellationToken);
 
-    public Task<ICollection<PalletDomain>> GetWithPaginationAsync(
+    public Task<ICollection<Models.Pallet>> GetWithPaginationAsync(
         int offset,
         int take,
         CancellationToken cancellationToken);

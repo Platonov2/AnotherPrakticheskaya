@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace Storage.Entities;
 
-namespace Storage.Entities;
-
-public class Box
+/// <summary>
+/// Модель записи коробки в БД
+/// </summary>
+public sealed class BoxRecord
 {
     private int length;
     private int width;
@@ -11,14 +12,14 @@ public class Box
     private DateOnly manufacturingDate;
     private DateOnly expirationDate;
 
-    public Box() { }
+    public BoxRecord() { }
 
-    public Box(Guid id, int length, int width, int height, int weight, DateOnly manufacturingDate)
+    public BoxRecord(Guid id, int length, int width, int height, int weight, DateOnly manufacturingDate)
         : this(id, length, width, height, weight, manufacturingDate, new DateOnly())
     {
     }
 
-    public Box(Guid id, int length, int width, int height, int weight, DateOnly manufacturingDate, DateOnly expirationDate)
+    public BoxRecord(Guid id, int length, int width, int height, int weight, DateOnly manufacturingDate, DateOnly expirationDate)
     {
         Id = id;
         Length = length;
@@ -37,7 +38,7 @@ public class Box
     /// <summary>
     /// Внешний ключ Id паллеты
     /// </summary>
-    public Guid PalletId { get; set; }
+    public Guid PalletRecordId { get; set; }
 
     /// <summary>
     /// Длина коробки
@@ -120,7 +121,6 @@ public class Box
         get => expirationDate;
         private set
         {
-            expirationDate = value.Equals(new DateOnly()) ? manufacturingDate.AddDays(100) : value;
             if (expirationDate < manufacturingDate)
             {
                 throw new ArgumentOutOfRangeException("manufacturingDate > expirationDate " + value.ToString());

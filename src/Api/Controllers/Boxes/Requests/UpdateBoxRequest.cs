@@ -1,6 +1,9 @@
-﻿namespace Api.Controllers.Boxes.ResponceDtos;
+﻿namespace Api.Controllers.Boxes.Requests;
 
-internal sealed class GetBoxResponce
+/// <summary>
+/// Модель запроса на обновление коробки
+/// </summary>
+public sealed class UpdateBoxRequest
 {
     /// <summary>
     /// ИД коробки
@@ -8,42 +11,37 @@ internal sealed class GetBoxResponce
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Внешний ключ Id паллеты
-    /// </summary>
-    public Guid PalletId { get; set; }
-
-    /// <summary>
     /// Длина коробки
     /// </summary>
-    public int Length { get; set; }
+    public int? Length { get; set; }
 
     /// <summary>
     /// Ширина коробки
     /// </summary>
-    public int Width { get; set; }
+    public int? Width { get; set; }
 
     /// <summary>
     /// Высота коробки
     /// </summary>
-    public int Height { get; set; }
+    public int? Height { get; set; }
 
     /// <summary>
     /// Вес коробки
     /// </summary>
-    public int Weight { get; set; }
+    public int? Weight { get; set; }
 
     /// <summary>
     /// Объём коробки
     /// </summary>
-    public int Volume { get; set; }
+    public int? Volume { get; set; }
 
     /// <summary>
     /// Дата производства
     /// </summary>
-    public DateOnly ManufacturingDate { get; set; }
+    public DateOnly? ManufacturingDate { get; set; }
 
     /// <summary>
     /// Срок годности коробки
     /// </summary>
-    public DateOnly ExpirationDate { get; set; }
+    public DateOnly? ExpirationDate { get; set; }
 }

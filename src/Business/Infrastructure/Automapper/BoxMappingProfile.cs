@@ -8,14 +8,12 @@ public class BoxMappingProfile : Profile
 {
     public BoxMappingProfile()
     {
-        CreateMap<Box, BoxDomain>();
+        CreateMap<BoxRecord, Box>();
 
-        CreateMap<Pallet, PalletDomain>();
+        CreateMap<PalletRecord, Pallet>();
 
-        CreateMap<BoxDomain, Box>()
-            .ForAllMembers(opts => opts.Condition((_, _, srcMember) => srcMember != null));
+        CreateMap<Box, BoxRecord>();
 
-        CreateMap<PalletDomain, Pallet>()
-            .ForAllMembers(opts => opts.Condition((_, _, srcMember) => srcMember != null));
+        CreateMap<Pallet, PalletRecord>();
     }
 }

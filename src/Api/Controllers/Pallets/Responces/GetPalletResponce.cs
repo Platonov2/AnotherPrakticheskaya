@@ -1,14 +1,12 @@
 ﻿using Business.Models;
-using Storage.Entities;
-using System.ComponentModel.DataAnnotations;
 
-namespace Api.Controllers.Pallets.ResponceDtos;
+namespace Api.Controllers.Pallets.Responces;
 
-internal sealed class GetPalletResponceDto
+/// <summary>
+/// Модель ответа с информацией о паллете
+/// </summary>
+public sealed class GetPalletResponce
 {
-
-    public GetPalletResponceDto() { }
-
     /// <summary>
     /// ИД палетты
     /// </summary>
@@ -47,7 +45,7 @@ internal sealed class GetPalletResponceDto
     /// <summary>
     /// Коробки на палетте
     /// </summary>
-    public List<BoxDomain> Boxes { get; set; } = new();
+    public List<Box> Boxes { get; set; } = new();
 
     /// <summary>
     /// Срок годности палетты

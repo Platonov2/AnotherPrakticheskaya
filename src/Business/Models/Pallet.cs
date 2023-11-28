@@ -1,37 +1,18 @@
 ﻿using Storage.Entities;
-using System.ComponentModel.DataAnnotations;
 
 namespace Business.Models;
 
-public sealed class PalletDomain
+/// <summary>
+/// Внутренняя модель паллеты
+/// </summary>
+public sealed class Pallet
 {
-    private int length;
-    private int width;
-    private int height;
-    private int weight;
-
-    public PalletDomain() { }
-
-    public PalletDomain(Guid id, int length, int width, int height, int weight) :
-        this(id, length, width, height, weight, null)
-    {
-    }
-
-    public PalletDomain(Guid id, int length, int width, int height, int weight, List<Box>? boxes)
-    {
-        Id = id;
-        Length = length;
-        Width = width;
-        Height = height;
-        Weight = weight;
-
-        boxes?.ForEach(box => AddBox(box));
-    }
+    public Pallet() { }
 
     /// <summary>
     /// Добовление коробки в палетту
     /// </summary>
-    public void AddBox(Box box)
+    public void AddBox(BoxRecord box)
     {
         if (box.Length > Length || box.Width > Width)
         {
@@ -39,7 +20,7 @@ public sealed class PalletDomain
                 + box.Length.ToString() + " " + box.Width.ToString() + " " + Length.ToString() + " " + Width.ToString());
         }
 
-        box.PalletId = Id;
+        box.PalletRecordId = Id;
     }
 
     /// <summary>
@@ -80,7 +61,7 @@ public sealed class PalletDomain
     /// <summary>
     /// Коробки на палетте
     /// </summary>
-    public List<BoxDomain> Boxes { get; set; } = new();
+    public List<Box> Boxes { get; set; } = new();
 
     /// <summary>
     /// Срок годности палетты

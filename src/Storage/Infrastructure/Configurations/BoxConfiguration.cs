@@ -4,13 +4,13 @@ using Storage.Entities;
 
 namespace Storage.Infrastructure.Configurations;
 
-internal sealed class BoxConfiguration : IEntityTypeConfiguration<Box>
+internal sealed class BoxConfiguration : IEntityTypeConfiguration<BoxRecord>
 {
-    public void Configure(EntityTypeBuilder<Box> builder)
+    public void Configure(EntityTypeBuilder<BoxRecord> builder)
     {
-        builder.HasOne<Pallet>()
+        builder.HasOne<PalletRecord>()
             .WithMany(p => p.Boxes)
-            .HasForeignKey(b => b.PalletId);
+            .HasForeignKey(b => b.PalletRecordId);
         builder.HasIndex(b => b.Id).IsUnique();
 
         builder.Property(b => b.Length).IsRequired();
